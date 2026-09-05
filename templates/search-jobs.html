@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Search Jobs - JobBoard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Search Section -->
+    <div class="card" style="margin-bottom: 2rem;">
+        <h2 style="margin-bottom: 1.5rem;">Search Jobs</h2>
+        <form method="GET" class="form-row" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div class="form-group" style="margin-bottom: 0;">
+                <input type="text" name="search" value="{{ search }}" placeholder="Job title, company, location...">
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 0;">
+                <select name="job_type">
+                    <option value="">All Job Types</option>
+                    <option value="Full-time">Full-time</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Temporary">Temporary</option>
+                </select>
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 0;">
+                <select name="experience">
+                    <option value="">All Levels</option>
+                    <option value="Entry">Entry Level</option>
+                    <option value="Mid-level">Mid-level</option>
+                    <option value="Senior">Senior</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn">Search</button>
+        </form>
+    </div>
+
+    <!-- Results -->
+    <div class="jobs-section">
+        <h2>Job Results ({{ jobs.total }} found)</h2>
+        
+        {% if jobs.items %}
+            <div class="jobs-list">
+                {% for job in jobs.items %}
+                    <a href="{{ url_for('job_details', job_id=job.id) }}" style="text-decoration: none;">
+                        <div class="card job-card">
+                            <div class="job-title">{{ job.title }}</div>
+                            <div class="company">{{ job.company }}</div>
+                            <div class="location">📍 {{ job.location }}</div>
+                            
+                            <div class="meta">
+                                <span class="badge info">{{ job.job_type }}</span>
+                                <span class="badge">{{ job.experience_level }}</span>
+                                {% if job.category %}
+                                    <span class="badge success">{{ job.category }}</span>
+                                {% endif %}
+                                {% if job.salary_min and job.salary_max %}
+                                    <span class="salary">${{ "{:,}".format(job.salary_min) }} - ${{ "{:,}".format(job.salary_max) }}</span>
+                                {% endif %}
+                            </div>
+                            
+                            {% if job.skills_required %}
+                                <div style="margin-top: 1rem; color: #7f8c8d; font-size: 0.9rem;">
+                                    <strong>Skills:</strong> {{ job.skills_required[:50] }}{% if job.skills_required|length > 50 %}...{% endif %}
+                                </div>
+                            {% endif %}
+                            
+                            <div style="color: #95a5a6; font-size: 0.85rem; margin-top: 0.5rem;">
+                                Posted {{ job.days_posted }} day{% if job.days_posted != 1 %}s{% endif %} ago
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if jobs.pages > 1 %}
+                <div style="text-align: center; margin-top: 2rem;">
+                    {% if jobs.has_prev %}
+                        <a href="{{ url_for('jobs_list', page=jobs.prev_num, search=search) }}" class="btn btn-secondary">← Previous</a>
+                    {% endif %}
+                    
+                    <span style="margin: 0 1rem; color: #7f8c8d;">
+                        Page {{ jobs.page }} of {{ jobs.pages }}
+                    </span>
+                    
+                    {% if jobs.has_next %}
+                        <a href="{{ url_for('jobs_list', page=jobs.next_num, search=search) }}" class="btn btn-secondary">Next →</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="card">
+                <p>No jobs found matching your criteria. Try adjusting your search filters.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
