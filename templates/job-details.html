@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Job Details - JobBoard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="job-header">
+        <h1>{{ job.title }}</h1>
+        <div class="company-info">
+            <div class="info-item">
+                <strong>Company:</strong> {{ job.company }}
+            </div>
+            <div class="info-item">
+                <strong>📍 Location:</strong> {{ job.location }}
+            </div>
+            <div class="info-item">
+                <strong>Type:</strong> {{ job.job_type }}
+            </div>
+            <div class="info-item">
+                <strong>Level:</strong> {{ job.experience_level }}
+            </div>
+        </div>
+
+        {% if job.salary_min and job.salary_max %}
+            <div style="background-color: #d5f4e6; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
+                <strong style="color: #27ae60; font-size: 1.2rem;">
+                    Salary Range: ${{ "{:,}".format(job.salary_min) }} - ${{ "{:,}".format(job.salary_max) }}/year
+                </strong>
+            </div>
+        {% endif %}
+
+        {% if not applied and current_user.is_authenticated %}
+            <form method="POST" action="{{ url_for('apply_job', job_id=job.id) }}" style="margin-top: 1.5rem;">
+                <button type="submit" class="btn btn-success btn-block">Apply Now</button>
+            </form>
+        {% elif applied %}
+            <div class="alert alert-success" style="margin-top: 1.5rem;">
+                ✓ You have already applied for this job
+            </div>
+        {% elif not current_user.is_authenticated %}
+            <a href="{{ url_for('login') }}" class="btn btn-block" style="margin-top: 1.5rem;">Login to Apply</a>
+        {% endif %}
+    </div>
+
+    <div class="job-description">
+        <h2>Job Description</h2>
+        <p>{{ job.description }}</p>
+    </div>
+
+    {% if job.skills_required %}
+        <div class="card" style="margin-bottom: 2rem;">
+            <h2>Required Skills</h2>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                {% for skill in job.skills_required.split(',') %}
+                    <span class="badge info">{{ skill.strip() }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="card">
+        <h3>About This Job</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
+            <div>
+                <strong>Posted on:</strong><br>
+                {{ job.posted_date.strftime('%B %d, %Y') }}
+            </div>
+            {% if job.deadline %}
+                <div>
+                    <strong>Application Deadline:</strong><br>
+                    {{ job.deadline.strftime('%B %d, %Y') }}
+                </div>
+            {% endif %}
+            <div>
+                <strong>Posted by:</strong><br>
+                {{ job.author.full_name or job.author.username }}
+            </div>
+        </div>
+    </div>
+
+    {% if current_user.is_authenticated and current_user.id == job.user_id %}
+        <div style="margin-top: 2rem; text-align: center;">
+            <h3>Job Management</h3>
+            <button class="btn btn-secondary" onclick="alert('Edit functionality coming soon')">Edit Job</button>
+            <button class="btn btn-danger" onclick="if(confirm('Delete this job?')) { alert('Delete functionality coming soon'); }">Delete Job</button>
+        </div>
+    {% endif %}
+
+    <div style="margin-top: 2rem; text-align: center;">
+        <a href="{{ url_for('jobs_list') }}" class="btn btn-secondary">← Back to Jobs</a>
+    </div>
+</div>
+{% endblock %}
