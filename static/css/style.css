@@ -8,16 +8,20 @@
 body {
     font-family: Arial, sans-serif;
     background: #f4f7fb;
-    color: #222;
+    color: #2c3e50;
 }
 
 header {
     background: #172554;
     color: white;
-    padding: 22px 8%;
+    padding: 20px 8%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+header h2 {
+    font-size: 26px;
 }
 
 nav a {
@@ -26,69 +30,116 @@ nav a {
     margin-left: 25px;
 }
 
+nav a:hover {
+    color: #fbbf24;
+}
+
 .hero {
     text-align: center;
-    padding: 90px 20px;
-    background: #dbeafe;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #dbeafe, #eff6ff);
 }
 
 .hero h1 {
-    font-size: 42px;
-    color: #172554;
+    font-size: 40px;
     margin-bottom: 15px;
+    color: #172554;
 }
 
 .hero p {
     margin-bottom: 25px;
+    font-size: 18px;
 }
 
 input {
     padding: 14px;
     width: 300px;
+    max-width: 100%;
     border: 1px solid #ccc;
     border-radius: 6px;
 }
 
-button {
-    padding: 14px 22px;
+button, .btn {
     background: #2563eb;
     color: white;
+    padding: 13px 22px;
     border: none;
     border-radius: 6px;
+    text-decoration: none;
     cursor: pointer;
+    display: inline-block;
 }
 
-.jobs {
-    padding: 50px 8%;
-    min-height: 250px;
+button:hover, .btn:hover {
+    background: #1d4ed8;
 }
 
-.jobs h2 {
+.container {
+    width: 85%;
+    margin: auto;
+}
+
+.jobs-section {
+    padding: 45px 0;
+}
+
+.jobs-section h2 {
     margin-bottom: 25px;
 }
 
-.job-card {
+.jobs-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
     background: white;
-    padding: 20px;
-    margin-bottom: 15px;
+    padding: 25px;
     border-radius: 10px;
-    box-shadow: 0 2px 8px #ddd;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.job-card h3 {
+    color: #1d4ed8;
+    margin-bottom: 12px;
+}
+
+.job-card p {
+    margin-bottom: 10px;
+}
+
+.job-card .btn {
+    margin-top: 12px;
+}
+
+.job-header, .job-description {
+    background: white;
+    padding: 30px;
+    margin: 25px 0;
+    border-radius: 10px;
 }
 
 footer {
-    text-align: center;
-    padding: 25px;
     background: #172554;
     color: white;
+    text-align: center;
+    padding: 22px;
+    margin-top: 40px;
 }
 
 @media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
     .hero h1 {
         font-size: 30px;
     }
 
-    input {
-        width: 100%;
-        margin-bottom: 10px;
+    .container {
+        width: 92%;
     }
 }
