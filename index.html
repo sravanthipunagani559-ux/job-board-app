@@ -5,36 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobBoard - Find Your Dream Job</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
 
-<header>
-    <h2>JobBoard</h2>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/jobs">Find Jobs</a>
-    </nav>
-</header>
+    <!-- Header -->
+    <header>
+        <h2>JobBoard</h2>
 
-<section class="hero">
-    <h1>Find Your Dream Job Today</h1>
-    <p>Discover thousands of opportunities and build your career.</p>
-    <form action="/jobs" method="GET">
-        <input type="text" name="q" placeholder="Enter job title or keyword">
-        <button type="submit">Search Jobs</button>
-    </form>
-</section>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/jobs">Find Jobs</a>
+        </nav>
+    </header>
 
-<section class="jobs">
-    <h2>Featured Jobs</h2>
-    <div id="job-list"></div>
-</section>
+    <!-- Hero Section -->
+    <section class="hero">
 
-<footer>
-    <p>© 2026 JobBoard. All Rights Reserved.</p>
-</footer>
+        <h1>Find Your Dream Job Today</h1>
 
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <p>
+            Discover thousands of opportunities
+            and build your career with us.
+        </p>
+
+        <!-- Search Form -->
+        <form action="/" method="GET">
+
+            <input
+                type="text"
+                name="q"
+                placeholder="Enter job title or keyword"
+            >
+
+            <button type="submit">Search Jobs</button>
+
+        </form>
+
+    </section>
+
+    <!-- Featured Jobs -->
+    <section class="jobs">
+
+        <h2>Featured Jobs</h2>
+
+        <div id="job-list"></div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+
+        <p>© 2026 JobBoard. All Rights Reserved.</p>
+
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 </body>
 </html>
