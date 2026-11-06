@@ -1,69 +1,42 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JobBoard - Find Your Dream Job</title>
+{% extends "base.html" %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% block title %}JobBoard - Find Your Dream Job{% endblock %}
 
-<body>
+{% block content %}
 
-    <!-- Header -->
-    <header>
-        <h2>JobBoard</h2>
+<section class="hero">
+    <h1>Find Your Dream Job Today</h1>
 
-        <nav>
-            <a href="/">Home</a>
-            <a href="/jobs">Find Jobs</a>
-        </nav>
-    </header>
+    <p>Discover exciting opportunities and build your career with us.</p>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <form action="{{ url_for('find_jobs') }}" method="GET">
+        <input
+            type="text"
+            name="q"
+            placeholder="Enter job title or keyword"
+        >
+        <button type="submit" class="btn">Search Jobs</button>
+    </form>
+</section>
 
-        <h1>Find Your Dream Job Today</h1>
+<section class="jobs-section container">
+    <h2>Featured Jobs</h2>
 
-        <p>
-            Discover thousands of opportunities
-            and build your career with us.
-        </p>
+    <div class="jobs-list">
+        {% for job in jobs %}
+        <div class="card job-card">
+            <h3>{{ job.title }}</h3>
+            <p>{{ job.company }}</p>
+            <p>📍 {{ job.location }}</p>
 
-        <!-- Search Form -->
-        <form action="/" method="GET">
+            <a href="{{ url_for('job_details', job_id=job.id) }}"
+               class="btn">
+                View Details
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
-            <input
-                type="text"
-                name="q"
-                placeholder="Enter job title or keyword"
-            >
-
-            <button type="submit">Search Jobs</button>
-
-        </form>
-
-    </section>
-
-    <!-- Featured Jobs -->
-    <section class="jobs">
-
-        <h2>Featured Jobs</h2>
-
-        <div id="job-list"></div>
-
-    </section>
-
-    <!-- Footer -->
-    <footer>
-
-        <p>© 2026 JobBoard. All Rights Reserved.</p>
-
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
-</body>
-</html>
+{% endblock %}
